@@ -41,6 +41,7 @@ install_psiphon() {
   sudo chown root:root "$PSIPHON_BINARY_PATH"
 
   echo "Psiphon installed successfully."
+
   create_service
 }
 
@@ -112,6 +113,7 @@ EOF
       echo "Failed to create Psiphon service file."
       exit 1
     fi
+    echo "Psiphon service file created."
   else
     echo "Psiphon service file already exists."
   fi
