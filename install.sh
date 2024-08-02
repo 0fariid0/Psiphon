@@ -18,7 +18,7 @@ display_menu() {
 install_psiphon() {
     echo "Downloading Psiphon manager script..."
     wget -q "$MANAGER_SCRIPT_URL" -O "$MANAGER_SCRIPT_PATH"
-    
+
     if [ $? -ne 0 ]; then
         echo "Failed to download Psiphon manager script."
         exit 1
@@ -50,6 +50,9 @@ remove_psiphon() {
     # Optionally, remove other related files if needed
     sudo rm -f /etc/psiphon/* 2>/dev/null
     sudo rmdir /etc/psiphon 2>/dev/null
+    sudo systemctl stop psiphon.service 2>/dev/null
+    sudo systemctl disable psiphon.service 2>/dev/null
+    sudo rm -f /etc/systemd/system/psiphon.service 2>/dev/null
 }
 
 # Main script logic
