@@ -1,13 +1,20 @@
 #!/bin/bash
 
+# Default option (change to the desired default option)
+DEFAULT_OPTION=1
+
 # Display menu
 echo "Please choose an option:"
 echo "1. Install Psiphon"
 echo "2. Uninstall Psiphon"
 echo "3. Exit"
 
-# Read user choice
-read -p "Your choice (1/2/3): " choice
+# Use the default option if no user input is provided
+if [ -z "$1" ]; then
+  choice=$DEFAULT_OPTION
+else
+  choice=$1
+fi
 
 case "$choice" in 
   1 )
