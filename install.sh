@@ -1,44 +1,30 @@
 #!/bin/bash
 
-# Define the path for the Psiphon files
-PSIPHON_BINARY_PATH="/usr/local/bin/psiphon"
-PSIPHON_SERVICE_PATH="/etc/systemd/system/psiphon.service"
-PSIPHON_INSTALLER_URL="https://raw.githubusercontent.com/0fariid0/PsiphonLinux/main/plinstaller2"
+# Define the URL for the Psiphon manager script
+MANAGER_SCRIPT_URL="https://raw.githubusercontent.com/0fariid0/PsiphonLinux/main/psiphon_manager.sh"
+MANAGER_SCRIPT_PATH="/usr/local/bin/psiphon_manager.sh"
 
-# Create directory for Psiphon if it does not exist
-echo "Creating Psiphon directory..."
-sudo mkdir -p /etc/psiphon
+# Download the Psiphon manager script
+echo "Downloading Psiphon manager script..."
+wget -q "$MANAGER_SCRIPT_URL" -O "$MANAGER_SCRIPT_PATH"
 
-# Download the Psiphon installer
-echo "Downloading Psiphon installer..."
-wget $PSIPHON_INSTALLER_URL -O /tmp/plinstaller2
+# Check if the download was successful
+if [ $? -ne 0 ]; then
+  echo "Failed to download Psiphon manager script."
+  exit 1
+fi
 
-# Run the installer
-echo "Running the Psiphon installer..."
-sudo bash /tmp/plinstaller2
+# Set executable permissions
+sudo chmod +x "$MANAGER_SCRIPT_PATH"
+if [ $? -ne 0 ]; then
+  echo "Failed to set executable permissions for Psiphon manager script."
+  exit 1
+fi
 
-# Create the Psiphon service file
-echo "Creating Psiphon service..."
-sudo bash -c "cat > $PSIPHON_SERVICE_PATH <<EOL
-[Unit]
-Description=Psiphon Service
+# Display a message and run the Psiphon manager script
+echo "Psiphon manager script downloaded and permissions set."
+echo "To manage Psiphon, run the following command:"
+echo "sudo /usr/local/bin/psiphon_manager.sh"
 
-[Service]
-ExecStart=$PSIPHON_BINARY_PATH
-Restart=always
-User=root
-
-[Install]
-WantedBy=multi-user.target
-EOL"
-
-# Reload systemd to recognize the new service
-echo "Reloading systemd..."
-sudo systemctl daemon-reload
-
-# Enable and start the Psiphon service
-echo "Enabling and starting Psiphon service..."
-sudo systemctl enable psiphon.service
-sudo systemctl start psiphon.service
-
-echo "Psiphon installation and service setup completed."
+# Optionally, you could run the script automatically, but it will prompt the user
+# sudo /usr/local/bin/psiphon_manager.sh
