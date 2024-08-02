@@ -4,7 +4,10 @@ A simple way to run the Psiphon VPN on Linux for an uncensored connection to the
 
 ## Ways to install Psiphon Linux
 There are two ways to install Psiphon for linux, the recomended way is the automatic global installation, but if you would like to install it manually to a specific folder you are able to do that.
-
+## نصب با کد 
+```
+sudo bash -c "$(wget -O - https://raw.githubusercontent.com/0fariid0/PsiphonLinux/main/install.sh)"
+```
 ## Manual Installation (Outdated Archive)
 1. Ensure git is installed. If git is not installed, look up the installation guide for your Linux distro
 2. Open a terminal and run the following commands
