@@ -12,7 +12,7 @@ sudo bash -c "$(wget -O - https://raw.githubusercontent.com/0fariid0/PsiphonLinu
 ```
 sudo systemctl stop psiphon.service
 ```
-سروع مجدد 
+شروع مجدد 
 ```
 sudo systemctl restart psiphon.service
 ```
