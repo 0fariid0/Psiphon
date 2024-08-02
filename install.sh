@@ -18,12 +18,12 @@ display_menu() {
 install_psiphon() {
     echo "Downloading Psiphon manager script..."
     wget -q "$MANAGER_SCRIPT_URL" -O "$MANAGER_SCRIPT_PATH"
-
+    
     if [ $? -ne 0 ]; then
         echo "Failed to download Psiphon manager script."
         exit 1
     fi
-
+    
     sudo chmod +x "$MANAGER_SCRIPT_PATH"
     
     if [ $? -ne 0 ]; then
@@ -58,7 +58,7 @@ remove_psiphon() {
 # Main script logic
 while true; do
     display_menu
-
+    
     case $choice in
         1)
             install_psiphon
