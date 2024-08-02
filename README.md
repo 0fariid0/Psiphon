@@ -25,6 +25,7 @@ There are two ways to install Psiphon for linux, the recomended way is the autom
 To start PsiphonLinux after a manual install, ensure you are in the directory where you installed Psiphon by running `ls` in the terminal and verifying that there are psiphon files there. Once verified, the command to start Psiphon VPN with the provided config file is `./'psiphon-tunnel-core-x86_64' -config psiphon.config`. Once ran, Psiphon will begin running as a local proxy and the port 8081 will handle http and https requests whereas the port 1081 will handle SOCKS 4/5 requests. 
 
 ### Automatic 
+```bash
 wget https://raw.githubusercontent.com/0fariid0/psiphon-installer/master/install_and_setup_psiphon.sh -O - | bash
 
 
