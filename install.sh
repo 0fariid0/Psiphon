@@ -22,16 +22,20 @@ download_file() {
 install_psiphon() {
   echo "Installing Psiphon..."
 
-  # Create directory if it doesn't exist
+  # Check and create directory if it doesn't exist
   if [ ! -d "/etc/psiphon/" ]; then
-    mkdir -p /etc/psiphon/
+    sudo mkdir -p /etc/psiphon/
+    if [ $? -ne 0 ]; then
+      echo "Failed to create directory /etc/psiphon/"
+      exit 1
+    fi
   else
     echo "Directory /etc/psiphon/ already exists."
   fi
 
   # Download and run Psiphon installer
   download_file $PSIPHON_INSTALLER_URL $PSIPHON_INSTALLER_PATH
-  chmod +x $PSIPHON_INSTALLER_PATH
+  sudo chmod +x $PSIPHON_INSTALLER_PATH
   sudo $PSIPHON_INSTALLER_PATH
 
   # Check for installation success
@@ -47,7 +51,9 @@ install_psiphon() {
 create_service() {
   echo "Creating Psiphon service..."
 
-  sudo tee $SERVICE_FILE <<EOF
+  # Create service file if it doesn't exist
+  if [ ! -f $SERVICE_FILE ]; then
+    sudo tee $SERVICE_FILE <<EOF
 [Unit]
 Description=Psiphon Service
 After=network.target
@@ -61,11 +67,23 @@ Group=root
 [Install]
 WantedBy=multi-user.target
 EOF
+    if [ $? -ne 0 ]; then
+      echo "Failed to create service file."
+      exit 1
+    fi
+  else
+    echo "Service file $SERVICE_FILE already exists."
+  fi
 
   # Reload systemd and start the service
   sudo systemctl daemon-reload
   sudo systemctl enable psiphon.service
   sudo systemctl start psiphon.service
+
+  if [ $? -ne 0 ]; then
+    echo "Failed to start Psiphon service."
+    exit 1
+  fi
 
   echo "Psiphon service created and started successfully."
 }
