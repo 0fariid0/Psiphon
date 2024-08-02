@@ -26,6 +26,11 @@ install_psiphon() {
     
     sudo chmod +x "$INSTALLER_PATH"
     
+    if [ $? -ne 0 ]; then
+        echo "Failed to set executable permissions for Psiphon installer script."
+        exit 1
+    fi
+    
     echo "Installing Psiphon..."
     sudo "$INSTALLER_PATH"
     
