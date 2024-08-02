@@ -1,38 +1,38 @@
 #!/bin/bash
 
-# بررسی اینکه اسکریپت با دسترسی‌های ریشه (root) اجرا می‌شود
+# Check if the script is run as root
 if [ "$EUID" -ne 0 ]; then
-  echo "لطفاً این اسکریپت را با دسترسی‌های ریشه اجرا کنید (با استفاده از sudo)."
+  echo "Please run this script with root privileges (using sudo)."
   exit 1
 fi
 
-# نام فایل نصب
+# Name of the installation script
 INSTALL_SCRIPT="install_psiphon.sh"
 SERVICE_FILE="/etc/systemd/system/psiphon.service"
 
-# دانلود فایل plinstaller2
-echo "دانلود فایل plinstaller2..."
+# Download the plinstaller2 file
+echo "Downloading plinstaller2 file..."
 wget https://raw.githubusercontent.com/0fariid0/PsiphonLinux/main/plinstaller2 -O plinstaller2
 
-# بررسی موفقیت دانلود
+# Check if the download was successful
 if [ $? -ne 0 ]; then
-  echo "دانلود فایل plinstaller2 شکست خورد."
+  echo "Failed to download the plinstaller2 file."
   exit 1
 fi
 
-# اعطای مجوز اجرایی به plinstaller2
+# Grant execute permissions to plinstaller2
 chmod +x plinstaller2
 
-# اجرای plinstaller2
-echo "اجرای plinstaller2..."
+# Run plinstaller2
+echo "Running plinstaller2..."
 sudo ./plinstaller2
 
-# اجرای Psiphon
-echo "اجرای Psiphon..."
+# Start Psiphon
+echo "Starting Psiphon..."
 sudo psiphon
 
-# ایجاد فایل سرویس
-echo "ایجاد فایل سرویس..."
+# Create the service file
+echo "Creating service file..."
 cat > $SERVICE_FILE <<EOL
 [Unit]
 Description=Psiphon Service
@@ -47,13 +47,13 @@ Restart=on-failure
 WantedBy=multi-user.target
 EOL
 
-# بارگذاری مجدد سیستم‌دی
-echo "بارگذاری مجدد سیستم‌دی..."
+# Reload systemd
+echo "Reloading systemd..."
 systemctl daemon-reload
 
-# فعال‌سازی و شروع سرویس
-echo "فعال‌سازی سرویس Psiphon..."
+# Enable and start the service
+echo "Enabling Psiphon service..."
 systemctl enable psiphon.service
 systemctl start psiphon.service
 
-echo "تمام مراحل با موفقیت انجام شد!"
+echo "All steps completed successfully!"
