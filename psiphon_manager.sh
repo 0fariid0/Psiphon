@@ -137,6 +137,7 @@ EOF
 
 # Main menu
 while true; do
+  clear
   echo "Please choose an option:"
   echo "1. Install Psiphon"
   echo "2. Remove Psiphon"
