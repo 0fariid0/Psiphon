@@ -3,6 +3,7 @@
 # Define the URL and path for the Psiphon manager script
 SCRIPT_URL="https://raw.githubusercontent.com/0fariid0/PsiphonLinux/main/psiphon_manager.sh"
 SCRIPT_PATH="/usr/local/bin/psiphon_manager.sh"
+SERVICE_FILE="/etc/systemd/system/psiphon.service"
 
 # Download the Psiphon manager script
 echo "Downloading the Psiphon manager script..."
@@ -28,5 +29,28 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# Create the Psiphon service file
+echo "Creating Psiphon service..."
+sudo tee $SERVICE_FILE <<EOF
+[Unit]
+Description=Psiphon Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/psiphon
+Restart=on-failure
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Reload systemd and enable the service
+echo "Reloading systemd and enabling Psiphon service..."
+sudo systemctl daemon-reload
+sudo systemctl enable psiphon.service
+sudo systemctl start psiphon.service
+
 # Inform the user
-echo "The Psiphon manager script has been executed successfully."
+echo "The Psiphon service has been created and started successfully."
