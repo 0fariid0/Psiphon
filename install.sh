@@ -9,4 +9,7 @@ chmod +x /usr/local/bin/psiphon_manager.sh
 
 # Inform the user
 echo "Psiphon manager script installed successfully."
-echo "You can run it using the command: psiphon_manager.sh"
+echo "Running the Psiphon manager script..."
+
+# Run the script
+/usr/local/bin/psiphon_manager.sh
