@@ -16,5 +16,5 @@ chmod +x $SCRIPT_PATH
 echo "Psiphon manager script installed successfully."
 echo "Running the Psiphon manager script..."
 
-# Run the script
-$SCRIPT_PATH
+# Run the script and redirect any errors to a log file
+$SCRIPT_PATH > /var/log/psiphon_manager.log 2>&1
