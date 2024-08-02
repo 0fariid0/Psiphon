@@ -12,8 +12,9 @@ sudo bash -c "$(wget -O - https://raw.githubusercontent.com/0fariid0/PsiphonLinu
 ```
 sudo systemctl stop psiphon.service
 ```
+سروع مجدد 
 ```
-sudo systemctl start psiphon.service
+sudo systemctl restart psiphon.service
 ```
 ## Manual Installation (Outdated Archive)
 1. Ensure git is installed. If git is not installed, look up the installation guide for your Linux distro
