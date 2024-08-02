@@ -9,12 +9,8 @@ echo "1. Install Psiphon"
 echo "2. Uninstall Psiphon"
 echo "3. Exit"
 
-# Use the default option if no user input is provided
-if [ -z "$1" ]; then
-  choice=$DEFAULT_OPTION
-else
-  choice=$1
-fi
+# Set the choice to the default option if not provided
+choice=${1:-$DEFAULT_OPTION}
 
 case "$choice" in 
   1 )
