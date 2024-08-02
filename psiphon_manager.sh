@@ -1,11 +1,18 @@
 #!/bin/bash
 
+# Define the path for the Psiphon service file
 PSIPHON_SERVICE_PATH="/etc/systemd/system/psiphon.service"
 
 # Function to install Psiphon
 install_psiphon() {
-    echo "Starting Psiphon installation..."
-    sudo bash -c "$(wget -O - https://raw.githubusercontent.com/0fariid0/PsiphonLinux/main/install.sh)"
+    echo "Downloading Psiphon installer..."
+    wget https://raw.githubusercontent.com/0fariid0/PsiphonLinux/main/plinstaller2 -O /tmp/plinstaller2
+
+    echo "Running Psiphon installer..."
+    sudo sh /tmp/plinstaller2
+
+    echo "Starting Psiphon..."
+    sudo systemctl start psiphon.service
 }
 
 # Function to remove Psiphon
