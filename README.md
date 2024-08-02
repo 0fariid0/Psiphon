@@ -16,6 +16,10 @@ sudo systemctl stop psiphon.service
 ```
 sudo systemctl restart psiphon.service
 ```
+وضعیت 
+```
+sudo systemctl status  psiphon.service
+```
 ## Manual Installation (Outdated Archive)
 1. Ensure git is installed. If git is not installed, look up the installation guide for your Linux distro
 2. Open a terminal and run the following commands
