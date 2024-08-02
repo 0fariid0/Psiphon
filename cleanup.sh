@@ -6,12 +6,15 @@ PLINSTALLER_FILE="plinstaller2"
 
 # تابع متوقف کردن و پاک‌سازی سرویس
 cleanup_psiphon() {
+  # متوقف کردن سرویس
   echo "Stopping Psiphon service..."
   sudo systemctl stop psiphon.service
 
+  # غیرفعال کردن سرویس
   echo "Disabling Psiphon service..."
   sudo systemctl disable psiphon.service
 
+  # حذف فایل سرویس
   if [ -f "$SERVICE_FILE" ]; then
     echo "Removing service file..."
     sudo rm "$SERVICE_FILE"
@@ -19,9 +22,11 @@ cleanup_psiphon() {
     echo "Service file not found."
   fi
 
+  # بارگذاری مجدد سیستم‌دی
   echo "Reloading systemd..."
   sudo systemctl daemon-reload
 
+  # حذف فایل plinstaller2
   if [ -f "$PLINSTALLER_FILE" ]; then
     echo "Removing plinstaller2 file..."
     rm "$PLINSTALLER_FILE"
