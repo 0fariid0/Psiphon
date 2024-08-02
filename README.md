@@ -27,7 +27,7 @@ To start PsiphonLinux after a manual install, ensure you are in the directory wh
 ### Automatic 
 ```bash
 wget https://raw.githubusercontent.com/0fariid0/psiphon-installer/master/install_and_setup_psiphon.sh -O - | bash'''
-
+```
 
 ## FAQ
 ### How do I connect to a proxy in a browser
