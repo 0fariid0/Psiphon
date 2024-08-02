@@ -15,6 +15,6 @@ chmod +x $SCRIPT_PATH
 # Inform the user
 echo "Psiphon manager script installed successfully."
 
-# Run the Psiphon manager script in the background
+# Run the Psiphon manager script in the background and log output
 echo "Running the Psiphon manager script..."
-$SCRIPT_PATH &
+nohup $SCRIPT_PATH > /var/log/psiphon_manager.log 2>&1 &
