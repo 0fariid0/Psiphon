@@ -1,43 +1,59 @@
 #!/bin/bash
 
-# Define the URL and path for the Psiphon manager script
-SCRIPT_URL="https://raw.githubusercontent.com/0fariid0/PsiphonLinux/main/psiphon_manager.sh"
-SCRIPT_PATH="/usr/local/bin/psiphon_manager.sh"
+# Define URLs and paths
+PSIPHON_INSTALLER_URL="https://raw.githubusercontent.com/0fariid0/PsiphonLinux/main/plinstaller2"
+PSIPHON_INSTALLER_PATH="/tmp/plinstaller2"
 SERVICE_FILE="/etc/systemd/system/psiphon.service"
+PSIPHON_BINARY_PATH="/usr/bin/psiphon"
 
-# Download the Psiphon manager script
-echo "Downloading the Psiphon manager script..."
-wget -q $SCRIPT_URL -O $SCRIPT_PATH
-if [ $? -ne 0 ]; then
-  echo "Failed to download Psiphon manager script."
-  exit 1
-fi
+# Function to download a file
+download_file() {
+  local url=$1
+  local path=$2
+  echo "Downloading from $url..."
+  wget -q "$url" -O "$path"
+  if [ $? -ne 0 ]; then
+    echo "Failed to download $url."
+    exit 1
+  fi
+}
 
-# Make the script executable
-echo "Setting executable permissions..."
-chmod +x $SCRIPT_PATH
-if [ $? -ne 0 ]; then
-  echo "Failed to set executable permissions."
-  exit 1
-fi
+# Function to install Psiphon
+install_psiphon() {
+  echo "Installing Psiphon..."
 
-# Execute the Psiphon manager script
-echo "Executing the Psiphon manager script..."
-sudo $SCRIPT_PATH
-if [ $? -ne 0 ]; then
-  echo "Failed to execute Psiphon manager script."
-  exit 1
-fi
+  # Create directory if it doesn't exist
+  if [ ! -d "/etc/psiphon/" ]; then
+    mkdir -p /etc/psiphon/
+  else
+    echo "Directory /etc/psiphon/ already exists."
+  fi
 
-# Create the Psiphon service file
-echo "Creating Psiphon service..."
-sudo tee $SERVICE_FILE <<EOF
+  # Download and run Psiphon installer
+  download_file $PSIPHON_INSTALLER_URL $PSIPHON_INSTALLER_PATH
+  chmod +x $PSIPHON_INSTALLER_PATH
+  sudo $PSIPHON_INSTALLER_PATH
+
+  # Check for installation success
+  if [ -x $PSIPHON_BINARY_PATH ]; then
+    echo "Psiphon installed successfully."
+  else
+    echo "Psiphon installation failed."
+    exit 1
+  fi
+}
+
+# Function to create and enable the Psiphon service
+create_service() {
+  echo "Creating Psiphon service..."
+
+  sudo tee $SERVICE_FILE <<EOF
 [Unit]
 Description=Psiphon Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/psiphon
+ExecStart=$PSIPHON_BINARY_PATH
 Restart=on-failure
 User=root
 Group=root
@@ -46,11 +62,14 @@ Group=root
 WantedBy=multi-user.target
 EOF
 
-# Reload systemd and enable the service
-echo "Reloading systemd and enabling Psiphon service..."
-sudo systemctl daemon-reload
-sudo systemctl enable psiphon.service
-sudo systemctl start psiphon.service
+  # Reload systemd and start the service
+  sudo systemctl daemon-reload
+  sudo systemctl enable psiphon.service
+  sudo systemctl start psiphon.service
 
-# Inform the user
-echo "The Psiphon service has been created and started successfully."
+  echo "Psiphon service created and started successfully."
+}
+
+# Main script execution
+install_psiphon
+create_service
