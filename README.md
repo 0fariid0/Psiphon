@@ -26,7 +26,7 @@ To start PsiphonLinux after a manual install, ensure you are in the directory wh
 
 ### Automatic 
 ```bash
-wget https://raw.githubusercontent.com/0fariid0/psiphon-installer/master/install.sh -O - | bash
+wget https://raw.githubusercontent.com/0fariid0/PsiphonLinux/master/install.sh -O - | bash
 ```
 
 ## FAQ
