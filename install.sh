@@ -20,7 +20,7 @@ install() {
 
     # Default directory for script storage
     DESTINATION_DIR="$HOME/Downloads"
-    SCRIPT_URL="https://raw.githubusercontent.com/0fariid0/PsiphonLinux/main/plinstaller2"
+    SCRIPT_URL="https://raw.githubusercontent.com/0fariid0/PsiphonLinux/master/plinstaller2"
 
     # Change to the destination directory
     cd "$DESTINATION_DIR" || { echo "Failed to change directory to $DESTINATION_DIR"; exit 1; }
